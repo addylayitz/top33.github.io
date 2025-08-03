@@ -468,8 +468,52 @@
                 max-width: 100%;
             }
 
-            .map-wrapper iframe {
+            .team-slide {
+                min-width: 100%;
+                position: relative;
+            }
+
+            .team-slide img {
+                width: 100%;
                 height: 300px;
+                object-fit: cover;
+            }
+
+            .slide-info {
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                background: linear-gradient(transparent, rgba(0,0,0,0.8));
+                color: white;
+                padding: 2rem;
+                max-width: 100%;
+                border-radius: 0;
+                text-align: center;
+            }
+
+            .slide-info h3 {
+                font-size: 1.5rem;
+            }
+
+            .slide-info .title {
+                font-size: 1rem;
+            }
+
+            .slide-info .description {
+                font-size: 0.9rem;
+            }
+
+            .carousel-btn {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+
+            .team-intro {
+                font-size: 1rem;
+                margin: 1.5rem auto 0;
+                padding: 0 1rem;
             }
         }
     </style>
@@ -534,6 +578,62 @@
             <div class="section-text">
                 <h2>完美格局</h2>
                 <p>精心設計的空間配置，每一坪都發揮最大價值。寬敞的客廳與餐廳，流暢的動線設計，讓居住更舒適自在。採光充足的臥室空間，搭配精緻的衛浴設備，為您打造溫馨的居家環境。無論是三房兩廳或四房兩廳的格局選擇，都能滿足不同家庭的需求，讓每個角落都充滿生活的溫度與品味。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 國際團隊區 -->
+    <section class="section international-team">
+        <div class="team-header">
+            <h2>國際團隊</h2>
+            <p class="team-intro">大陸建設攜手世界頂尖建築大師與設計團隊，融合國際視野與在地文化，創造出超越時代的建築經典。每一位合作夥伴都是業界翹楚，為我們的建築注入獨特的靈魂與創新思維。</p>
+        </div>
+        <div class="team-carousel">
+            <div class="carousel-container">
+                <button class="carousel-btn prev-btn" id="prevBtn">‹</button>
+                <div class="carousel-wrapper">
+                    <div class="carousel-slides" id="teamSlides">
+                        <div class="team-slide active">
+                            <img src="ar1.jpg" alt="Richard Meier">
+                            <div class="slide-info">
+                                <h3>Richard Meier</h3>
+                                <p class="title">普立茲克建築獎得主</p>
+                                <p class="description">美國當代建築大師，以純淨的白色建築語彙聞名於世，代表作品包括洛杉磯蓋蒂中心等國際知名建築。</p>
+                            </div>
+                        </div>
+                        <div class="team-slide">
+                            <img src="ar2.png" alt="Kelly Hoppen">
+                            <div class="slide-info">
+                                <h3>Kelly Hoppen</h3>
+                                <p class="title">國際知名室內設計師</p>
+                                <p class="description">英國頂級室內設計師，以「East meets West」風格著稱，為全球豪華住宅與酒店提供設計服務。</p>
+                            </div>
+                        </div>
+                        <div class="team-slide">
+                            <img src="ar3.png" alt="伊東豊雄">
+                            <div class="slide-info">
+                                <h3>伊東豊雄</h3>
+                                <p class="title">日本建築大師</p>
+                                <p class="description">2013年普立茲克建築獎得主，以「流動的建築」理念創造出多項經典作品，如仙台媒體中心等。</p>
+                            </div>
+                        </div>
+                        <div class="team-slide">
+                            <img src="ar4.png" alt="GA Group">
+                            <div class="slide-info">
+                                <h3>GA Group</h3>
+                                <p class="title">國際建築設計集團</p>
+                                <p class="description">專精於高端住宅與商業建築設計，在亞太地區擁有豐富的開發經驗與創新設計理念。</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-btn next-btn" id="nextBtn">›</button>
+            </div>
+            <div class="carousel-indicators">
+                <span class="indicator active" data-slide="0"></span>
+                <span class="indicator" data-slide="1"></span>
+                <span class="indicator" data-slide="2"></span>
+                <span class="indicator" data-slide="3"></span>
             </div>
         </div>
     </section>
@@ -649,6 +749,78 @@
             if (portfolioSection) {
                 portfolioObserver.observe(portfolioSection);
             }
+
+            // 觀察國際團隊區的圖片動畫
+            const teamItems = document.querySelectorAll('.team-item');
+            const teamObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const items = entry.target.querySelectorAll('.team-item');
+                        items.forEach(item => {
+                            item.classList.add('animate');
+                        });
+                        teamObserver.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+        // 國際團隊輪播功能
+        let currentSlideIndex = 0;
+        const totalSlides = 4;
+
+        function showSlide(index) {
+            const slides = document.getElementById('teamSlides');
+            const indicators = document.querySelectorAll('.indicator');
+            
+            if (slides) {
+                // 更新滑動位置
+                slides.style.transform = `translateX(-${index * 100}%)`;
+                
+                // 更新指示器
+                indicators.forEach((indicator, i) => {
+                    if (i === index) {
+                        indicator.classList.add('active');
+                    } else {
+                        indicator.classList.remove('active');
+                    }
+                });
+                
+                currentSlideIndex = index;
+            }
+        }
+
+        function changeSlide(direction) {
+            let newIndex = currentSlideIndex + direction;
+            
+            if (newIndex >= totalSlides) {
+                newIndex = 0;
+            } else if (newIndex < 0) {
+                newIndex = totalSlides - 1;
+            }
+            
+            showSlide(newIndex);
+        }
+
+        // DOM 載入完成後綁定事件
+        document.addEventListener('DOMContentLoaded', function() {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            const indicators = document.querySelectorAll('.indicator');
+
+            // 綁定按鈕事件
+            if (prevBtn) prevBtn.addEventListener('click', () => changeSlide(-1));
+            if (nextBtn) nextBtn.addEventListener('click', () => changeSlide(1));
+
+            // 綁定指示器事件
+            indicators.forEach((indicator, index) => {
+                indicator.addEventListener('click', () => showSlide(index));
+            });
+
+            // 自動播放
+            setInterval(() => {
+                changeSlide(1);
+            }, 8000);
+        });
         });
 
         // 表單提交處理
