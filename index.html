@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>大陸建設南港案 - 精品住宅</title>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            background: linear-gradient(135deg, #E8F5E8 0%, #F0F8E8 50%, #E0F2F1 100%);
+            color: #2C3E50;
+            line-height: 1.6;
+        }
+
+        /* 導覽列 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 2px 20px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #FF7F50;
+        }
+
+        .nav-btn {
+            background: linear-gradient(135deg, #FF7F50, #FF6B35);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-family: 'Noto Sans TC', sans-serif;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 127, 80, 0.3);
+        }
+
+        .nav-btn:hover {
+            background: linear-gradient(135deg, #FF6B35, #FF5722);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 127, 80, 0.4);
+        }
+
+        /* 主視覺區 */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), 
+                        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600"><defs><linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" style="stop-color:%23FFD4A3"/><stop offset="50%" style="stop-color:%237ECECA"/><stop offset="100%" style="stop-color:%2366B2B2"/></linearGradient></defs><rect width="1200" height="600" fill="url(%23bg)"/><path d="M200 300 Q400 200 600 300 Q800 400 1000 300" stroke="%23FF7F50" stroke-width="20" fill="none" opacity="0.8"/><path d="M300 350 Q500 250 700 350 Q900 450 1100 350" stroke="%232C5F5D" stroke-width="15" fill="none" opacity="0.7"/><circle cx="150" cy="150" r="60" fill="%23FF7F50" opacity="0.8"/><rect x="900" y="400" width="80" height="120" fill="%23FF7F50"/><rect x="920" y="420" width="40" height="100" fill="%23FFD4A3"/></svg>');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: white;
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, rgba(255, 127, 80, 0.1), rgba(126, 206, 202, 0.1), rgba(44, 95, 93, 0.1));
+            z-index: 1;
+        }
+
+        .hero h1, .hero p {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            font-weight: 300;
+            max-width: 600px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        /* 共用區塊樣式 */
+        .section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-content {
+            display: flex;
+            align-items: center;
+            gap: 4rem;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease;
+        }
+
+        .section-content.animate {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .section-image {
+            flex: 1;
+            text-align: center;
+        }
+
+        .section-image img {
+            width: 100%;
+            max-width: 500px;
+            height: 350px;
+            object-fit: cover;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(126, 206, 202, 0.2);
+            border: 3px solid rgba(255, 127, 80, 0.1);
+        }
+
+        .section-text {
+            flex: 1;
+        }
+
+        .section-text h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #2C3E50;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .section-text h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(135deg, #FF7F50, #7ECECA);
+            border-radius: 2px;
+        }
+
+        .section-text p {
+            font-size: 1.1rem;
+            color: #2C5F5D;
+            line-height: 1.8;
+            margin-top: 2rem;
+        }
+
+        /* 經典作品區 */
+        .portfolio {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(224, 242, 241, 0.5));
+            border-radius: 20px;
+            margin: 3rem 0;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+        }
+
+        .portfolio-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .portfolio-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #2C3E50;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .portfolio-header h2::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(135deg, #FF7F50, #7ECECA);
+            border-radius: 2px;
+        }
+
+        .portfolio-intro {
+            font-size: 1.1rem;
+            color: #2C5F5D;
+            line-height: 1.8;
+            max-width: 800px;
+            margin: 2rem auto 0;
+        }
+
+        .portfolio-grid {
+            display: flex;
+            justify-content: space-between;
+            gap: 1.5rem;
+            margin-top: 3rem;
+            overflow-x: auto;
+            padding: 0 1rem;
+        }
+
+        .portfolio-item {
+            position: relative;
+            border-radius: 15px;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all 0.8s ease;
+            box-shadow: 0 15px 35px rgba(126, 206, 202, 0.2);
+            flex: 0 0 calc(25% - 1.125rem);
+            min-width: 250px;
+        }
+
+        .portfolio-item.animate {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .portfolio-item:nth-child(1) { transition-delay: 0.1s; }
+        .portfolio-item:nth-child(2) { transition-delay: 0.3s; }
+        .portfolio-item:nth-child(3) { transition-delay: 0.5s; }
+        .portfolio-item:nth-child(4) { transition-delay: 0.7s; }
+
+        .portfolio-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .portfolio-item:hover img {
+            transform: scale(1.05);
+        }
+
+        .portfolio-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(transparent, rgba(44, 62, 80, 0.9));
+            color: white;
+            padding: 2rem 1.5rem 1.5rem;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .portfolio-item:hover .portfolio-overlay {
+            transform: translateY(0);
+        }
+
+        .portfolio-overlay h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .portfolio-overlay p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        .features .section-content {
+            flex-direction: row;
+        }
+
+        /* 空間展示區 - 右圖左文 */
+        .showcase .section-content {
+            flex-direction: row-reverse;
+        }
+
+        /* 聯絡表單區 */
+        .contact {
+            background: white;
+            margin-top: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.1);
+        }
+
+        .contact h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #2C3E50;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .contact h2::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(135deg, #FF7F50, #7ECECA);
+            border-radius: 2px;
+        }
+
+        .contact-container {
+            display: flex;
+            gap: 3rem;
+            align-items: flex-start;
+        }
+
+        .form-container {
+            flex: 1;
+            max-width: 500px;
+        }
+
+        .map-container {
+            flex: 1;
+            max-width: 500px;
+        }
+
+        .map-container h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #2C3E50;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .map-wrapper {
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(126, 206, 202, 0.2);
+        }
+
+        .map-wrapper iframe {
+            width: 100%;
+            height: 350px;
+            border: none;
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+            color: #2C3E50;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #E8ECF0;
+            border-radius: 10px;
+            font-family: 'Noto Sans TC', sans-serif;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #7ECECA;
+            box-shadow: 0 0 0 3px rgba(126, 206, 202, 0.1);
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #FF7F50, #7ECECA);
+            color: white;
+            padding: 1.2rem;
+            border: none;
+            border-radius: 10px;
+            font-family: 'Noto Sans TC', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 127, 80, 0.3);
+        }
+
+        .submit-btn:hover {
+            background: linear-gradient(135deg, #FF6B35, #66B2B2);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 127, 80, 0.4);
+        }
+
+        /* 響應式設計 */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero p {
+                font-size: 1.1rem;
+            }
+
+            .section {
+                padding: 3rem 1rem;
+            }
+
+            .section-content {
+                flex-direction: column !important;
+                gap: 2rem;
+            }
+
+            .section-text h2 {
+                font-size: 2rem;
+            }
+
+            .contact h2 {
+                font-size: 2rem;
+            }
+
+            .portfolio {
+                margin: 2rem 0;
+            }
+
+            .portfolio-grid {
+                flex-direction: row;
+                flex-wrap: wrap;
+                gap: 1rem;
+                justify-content: center;
+            }
+
+            .portfolio-item {
+                flex: 0 0 calc(50% - 0.5rem);
+                min-width: 200px;
+            }
+
+            .portfolio-item img {
+                height: 200px;
+            }
+
+            .portfolio-intro {
+                font-size: 1rem;
+                margin: 1.5rem auto 0;
+                padding: 0 1rem;
+            }
+
+            .contact-container {
+                flex-direction: column;
+                gap: 2rem;
+            }
+
+            .form-container, .map-container {
+                max-width: 100%;
+            }
+
+            .map-wrapper iframe {
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 導覽列 -->
+    <nav class="navbar">
+        <div class="logo">大陸建設</div>
+        <button class="nav-btn" onclick="scrollToContact()">聯絡我們</button>
+    </nav>
+
+    <!-- 主視覺區 -->
+    <section class="hero">
+        <h1>大陸建設南港案</h1>
+        <p>坐擁南港核心，享受都會便利與寧靜居住的完美平衡，打造您理想中的精品住宅生活</p>
+    </section>
+
+    <!-- 經典作品區 -->
+    <section class="section portfolio">
+        <div class="portfolio-header">
+            <h2>經典作品</h2>
+            <p class="portfolio-intro">大陸建設深耕台灣建築業超過四十年，秉持「品質第一、服務至上」的理念，致力於創造優質的居住環境。從豪宅大樓到都市更新，每一個建案都展現我們對建築工藝的堅持與創新。我們不僅注重建築的美學設計，更重視居住者的生活品質，融合現代科技與人文關懷，打造出一座座經典建築地標，為城市天際線增添獨特風采。</p>
+        </div>
+        <div class="portfolio-grid">
+            <div class="portfolio-item" data-index="0">
+                <img src="hr1.jpg" alt="琢白">
+                <div class="portfolio-overlay">
+                    <h3>琢白</h3>
+                    <p>白派現代精琢 台北信義創史傑作</p>
+                </div>
+            </div>
+            <div class="portfolio-item" data-index="1">
+                <img src="hr2.png" alt="琢豐">
+                <div class="portfolio-overlay">
+                    <h3>琢豐</h3>
+                    <p>松江南京 飯店寓邸典藏級都心行館</p>
+                </div>
+            </div>
+            <div class="portfolio-item" data-index="2">
+                <img src="hr3.jpg" alt="耑序">
+                <div class="portfolio-overlay">
+                    <h3>耑序</h3>
+                    <p>萬物耑始 SCDA國際建築設計</p>
+                </div>
+            </div>
+            <div class="portfolio-item" data-index="3">
+                <img src="hr4.jpg" alt="宝格">
+                <div class="portfolio-overlay">
+                    <h3>宝格</h3>
+                    <p>改寫七期豪宅 綠園道首排新美學</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 房屋特色區 -->
+    <section class="section features">
+        <div class="section-content">
+            <div class="section-image">
+                <img src="lobby.jpeg" alt="完美格局">
+            </div>
+            <div class="section-text">
+                <h2>完美格局</h2>
+                <p>精心設計的空間配置，每一坪都發揮最大價值。寬敞的客廳與餐廳，流暢的動線設計，讓居住更舒適自在。採光充足的臥室空間，搭配精緻的衛浴設備，為您打造溫馨的居家環境。無論是三房兩廳或四房兩廳的格局選擇，都能滿足不同家庭的需求，讓每個角落都充滿生活的溫度與品味。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 空間展示區 -->
+    <section class="section showcase">
+        <div class="section-content">
+            <div class="section-image">
+                <img src="life.jpg" alt="精緻生活">
+            </div>
+            <div class="section-text">
+                <h2>精緻生活</h2>
+                <p>頂級建材與現代工藝的完美結合，從天花板到地板，每個細節都展現品質堅持。廚房配備進口廚具設備，讓烹飪成為一種享受。寬敞的陽台空間，可欣賞城市景觀，感受都市生活的脈動。社區內規劃完善的公設，包括健身房、會議室、兒童遊戲區等，提供住戶多元化的休閒選擇，打造真正的精緻生活體驗。</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- 聯絡表單區 -->
+    <section class="section contact" id="contact">
+        <h2>預約賞屋</h2>
+        <div class="contact-container">
+            <div class="form-container">
+                <form action="https://www.formspree.io/f/YOUR_FORM_ID" method="POST">
+                    <div class="form-group">
+                        <label for="name">姓名 (Name)</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">電話 (Phone)</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">電子郵件 (Email)</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <button type="submit" class="submit-btn">送出</button>
+                </form>
+            </div>
+            <div class="map-container">
+                <h3>建案位置</h3>
+                <div class="map-wrapper">
+                    <iframe 
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3614.6574739929785!2d121.5654189153287!3d25.033493983969976!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3442abd6dadd9525%3A0xbeef7cc6b7d59985!2z5Y-w5YyX5L-h576p6KiI55WrIOWNl-a4r-mAmuW4gmVlMDAzMDU!5e0!3m2!1szh-TW!2stw!4v1647834791234!5m2!1szh-TW!2stw"
+                        width="100%" 
+                        height="350" 
+                        style="border:0;" 
+                        allowfullscreen="" 
+                        loading="lazy" 
+                        referrerpolicy="no-referrer-when-downgrade">
+                    </iframe>
+                </div>
+                <div class="location-info">
+                    <div class="info-item">
+                        <strong>📍 建案地址</strong>
+                        <p>台北市信義區信義路五段</p>
+                    </div>
+                    <div class="info-item">
+                        <strong>🚇 交通便利</strong>
+                        <p>捷運信義線 台北101站步行3分鐘</p>
+                    </div>
+                    <div class="info-item">
+                        <strong>🏢 週邊機能</strong>
+                        <p>信義商圈、台北101、新光三越</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // 平滑滾動到聯絡表單
+        function scrollToContact() {
+            document.getElementById('contact').scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+
+        // Intersection Observer 動畫效果
+        const observerOptions = {
+            threshold: 0.3,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('animate');
+                    observer.unobserve(entry.target); // 只動畫一次
+                }
+            });
+        }, observerOptions);
+
+        // 觀察所有需要動畫的區塊
+        document.addEventListener('DOMContentLoaded', () => {
+            const animateElements = document.querySelectorAll('.section-content');
+            animateElements.forEach(el => observer.observe(el));
+
+            // 觀察經典作品區的圖片動畫
+            const portfolioItems = document.querySelectorAll('.portfolio-item');
+            const portfolioObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const items = entry.target.querySelectorAll('.portfolio-item');
+                        items.forEach(item => {
+                            item.classList.add('animate');
+                        });
+                        portfolioObserver.unobserve(entry.target);
+                    }
+                });
+            }, observerOptions);
+
+            const portfolioSection = document.querySelector('.portfolio');
+            if (portfolioSection) {
+                portfolioObserver.observe(portfolioSection);
+            }
+        });
+
+        // 表單提交處理
+        document.querySelector('form').addEventListener('submit', function(e) {
+            const name = document.getElementById('name').value;
+            const phone = document.getElementById('phone').value;
+            const email = document.getElementById('email').value;
+            
+            if (name && phone && email) {
+                alert('感謝您的預約！我們將儘快與您聯繫。');
+            }
+        });
+    </script>
+</body>
+</html>
